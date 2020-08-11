@@ -27,7 +27,7 @@ public class GitChangelogCreator {
 	 * @throws IOException     - work with files
 	 * @throws GitAPIException - JGit specific exception
 	 */
-	public void Create(String repoPath) throws IOException, GitAPIException {
+	public void Create(String repoPath, Options options) throws IOException, GitAPIException {
 		
 		BasicConfigurator.configure();
 		List<ObjectId> logTags = new ArrayList<>();
