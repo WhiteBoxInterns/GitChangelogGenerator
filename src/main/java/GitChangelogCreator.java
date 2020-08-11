@@ -44,6 +44,7 @@ public class GitChangelogCreator {
 		}
 		FileWriter fileWriter = new FileWriter("Changelog.md");
 		fileWriter.write(String.valueOf(sb));
+		
 		fileWriter.close();
 		git.add().addFilepattern("Changelog.md").call();
 	}
