@@ -13,8 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * class which contains function to write commit messages between last two tags to changelog file and then
+/**class which contains function to write commit messages between last two tags to changelog file and then
  * add file to git repo
  */
 public class GitChangelogCreator {
@@ -22,10 +21,9 @@ public class GitChangelogCreator {
 	 * finds corresponding objectIds for the last two tags in the tagList of the repo
 	 * displays commit messages between those two tags
 	 * writes output to file and adds file to repo
-	 *
 	 * @param repoPath - given as String by user in the command line
-	 * @throws IOException     - work with files
-	 * @throws GitAPIException - JGit specific exception
+	 * @throws IOException
+	 * @throws GitAPIException
 	 */
 	public void Create(String repoPath) throws IOException, GitAPIException {
 		
@@ -44,11 +42,9 @@ public class GitChangelogCreator {
 			sb.append(rev.getFullMessage());
 			sb.append("\n");
 		}
-		FileWriter fileWriter = new FileWriter(repoPath + "/Changelog.md");
+		FileWriter fileWriter = new FileWriter("Changelog.md");
 		fileWriter.write(String.valueOf(sb));
-		
 		fileWriter.close();
-		git.add().addFilepattern(".").call();
-		git.commit();
+		git.add().addFilepattern("Changelog.md").call();
 	}
 }
