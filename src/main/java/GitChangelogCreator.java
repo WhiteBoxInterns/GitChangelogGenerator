@@ -1,4 +1,3 @@
-import org.apache.log4j.BasicConfigurator;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -31,7 +30,6 @@ public class GitChangelogCreator {
 	}
 
 	public StringBuilder getCommitMessages(Git git) throws GitAPIException, IncorrectObjectTypeException, MissingObjectException {
-		BasicConfigurator.configure();
 		List<ObjectId> logTags = getLogTags(git);
 		Iterable<RevCommit> logs = git.log().addRange(logTags.get(logTags.size() - 2), logTags.get(logTags.size() - 1)).call();
 		StringBuilder sb = new StringBuilder();
@@ -57,7 +55,6 @@ public class GitChangelogCreator {
 	 * @throws GitAPIException - JGit specific exception
 	 */
 	public void createFromLocalRepo(String repoPath) throws IOException, GitAPIException {
-		BasicConfigurator.configure();
 		FileRepositoryBuilder builder = new FileRepositoryBuilder();
 		Repository repo = builder.setGitDir(new File(repoPath)).setMustExist(true).build();
 		Git git = new Git(repo);
