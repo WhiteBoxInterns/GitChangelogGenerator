@@ -1,7 +1,6 @@
 package FileCreatorStrategy;
 
 import CommitMessageGetterStrategy.CommitMessageGetter;
-import FileCreatorStrategy.FileCreator;
 import org.apache.log4j.BasicConfigurator;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -45,7 +44,7 @@ public class LocalRepositoryCreator implements FileCreator {
 	}
 	
 	public void writeToFile(String content) throws IOException {
-		FileWriter fileWriter = new FileWriter("./Changelog.md");
+		FileWriter fileWriter = new FileWriter("./Changelog");
 		fileWriter.write(content);
 		
 		fileWriter.close();
