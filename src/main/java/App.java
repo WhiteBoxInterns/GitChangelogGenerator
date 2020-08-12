@@ -13,4 +13,5 @@ public class App {
 			if(args[2].matches("(.*)remote(.*)"))
 				options.setRemoteRepository(true);
 	}
+	
 }
