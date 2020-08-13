@@ -1,6 +1,5 @@
 package CommitMessageGetterStrategy;
 
-import CommitMessageGetterStrategy.CommitMessageGetter;
 import Utils.LogTagsGetter;
 import org.apache.log4j.BasicConfigurator;
 import org.eclipse.jgit.api.Git;
@@ -16,6 +15,8 @@ public class CommitMessageGetterAllBranches implements CommitMessageGetter {
 	public StringBuilder getCommitMessages(Git git, String branch) throws IOException, GitAPIException {
 		BasicConfigurator.configure();
 		List<ObjectId> logTags = LogTagsGetter.getLogTags(git);
+		if (logTags.size() == 0)
+			return new StringBuilder("No commit messages to show.");
 		Iterable<RevCommit> logs = git.log().all().addRange(logTags.get(logTags.size() - 2), logTags.get(logTags.size() - 1)).call();
 		StringBuilder sb = new StringBuilder();
 		for (RevCommit log : logs) {
