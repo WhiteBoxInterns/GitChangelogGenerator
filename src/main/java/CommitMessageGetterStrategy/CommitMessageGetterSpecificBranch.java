@@ -15,15 +15,19 @@ public class CommitMessageGetterSpecificBranch implements CommitMessageGetter {
 	@Override
 	public StringBuilder getCommitMessages(Git git, String branch) throws IOException, GitAPIException {
 		BasicConfigurator.configure();
-		List<ObjectId> logTags = LogTagsGetter.getLogTags(git);
-		if (logTags.size() == 0)
-			return new StringBuilder("No commit messages to show.");
-		Iterable<RevCommit> logs = git.log().add(git.getRepository().resolve(branch)).addRange(logTags.get(logTags.size() - 2), logTags.get(logTags.size() - 1)).call();
-		StringBuilder sb = new StringBuilder();
-		for (RevCommit log : logs) {
-			sb.append(log.getFullMessage());
-			sb.append("\n");
+		try {
+			List<ObjectId> logTags = LogTagsGetter.getLogTags(git);
+			if (logTags.size() < 2)
+				return new StringBuilder("No commit messages to show.");
+			Iterable<RevCommit> logs = git.log().add(git.getRepository().resolve(branch)).addRange(logTags.get(logTags.size() - 2), logTags.get(logTags.size() - 1)).call();
+			StringBuilder sb = new StringBuilder();
+			for (RevCommit log : logs) {
+				sb.append(log.getFullMessage());
+				sb.append("\n");
+			}
+			return sb;
+		} catch (NullPointerException e) {
+			return new StringBuilder("Cannot parse null commits.");
 		}
-		return sb;
 	}
 }

@@ -22,7 +22,7 @@ public class IntegrationTests {
     public void givenLocalRepowhenNoExtraOptionsthenFileIsCreated() throws GitAPIException, IOException {
         BasicConfigurator.configure();
         String workingDir = System.getProperty("user.dir");
-        Path repoPath = Paths.get(workingDir + "\\ChangeloggerTestRepo");
+        Paths.get(workingDir + "\\ChangeloggerTestRepo");
         
         GitChangelogCreator tester = new GitChangelogCreator();
         tester.setFileCreator(new LocalRepositoryCreator(new CommitMessageGetterAllBranches()));
@@ -53,12 +53,35 @@ public class IntegrationTests {
     @Test
     public void givenRemoteRepowhenCustomBranchthenFileIsCreated() throws GitAPIException, IOException {
         BasicConfigurator.configure();
-        
+    
         GitChangelogCreator tester = new GitChangelogCreator();
         tester.setFileCreator(new RemoteRepositoryCreator(new CommitMessageGetterSpecificBranch()));
-        
+    
         tester.generateChangelog("https://github.com/WhiteBoxInterns/ChangeloggerTestRepo.git", "branch");
         assertTrue(Files.exists(Paths.get("./Changelog")));
         FileUtils.forceDelete(new File("./Changelog"));
+        FileUtils.forceDelete(new File("./Repo/"));
+    }
+    
+    @Test
+    public void givenLocalRepowhenCustomBranchthenFileIsCreated() throws GitAPIException, IOException {
+        
+        BasicConfigurator.configure();
+        String workingDir = System.getProperty("user.dir");
+        Path repoPath = Paths.get(workingDir + "\\ChangeloggerTestRepo");
+        
+        GitChangelogCreator tester = new GitChangelogCreator();
+        tester.setFileCreator(new LocalRepositoryCreator(new CommitMessageGetterAllBranches()));
+        
+        Git git = Git.cloneRepository()
+            .setDirectory(new File("./ChangeloggerTestRepo"))
+            .setURI("https://github.com/WhiteBoxInterns/ChangeloggerTestRepo.git")
+            .call();
+        
+        
+        tester.generateChangelog(git.getRepository().getIdentifier(), "branch");
+        assertTrue(Files.exists(Paths.get("./Changelog")));
+        FileUtils.forceDelete(new File("./Changelog"));
+        FileUtils.forceDelete(new File("./ChangeloggerTestRepo"));
     }
 }
