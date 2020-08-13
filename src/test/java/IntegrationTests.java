@@ -12,7 +12,6 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -68,7 +67,7 @@ public class IntegrationTests {
         
         BasicConfigurator.configure();
         String workingDir = System.getProperty("user.dir");
-        Path repoPath = Paths.get(workingDir + "\\ChangeloggerTestRepo");
+        Paths.get(workingDir + "\\ChangeloggerTestRepo");
         
         GitChangelogCreator tester = new GitChangelogCreator();
         tester.setFileCreator(new LocalRepositoryCreator(new CommitMessageGetterAllBranches()));
